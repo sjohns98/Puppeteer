@@ -34,12 +34,28 @@
 
                     <div class="form-group">
                         <label for="user">Shoe Size</label>
-                        <input type="text" class="form-control" id="sizeUserInput" placeholder="password">
+                        <input type="text" class="form-control" id="sizeUserInput" placeholder="M 13 / W 14.5">
                     </div>
-
-
+                    <div class="form-group">
+                        <label for="user">URL </label>
+                        <input type="text" class="form-control" id="urlUserInput" placeholder="https://www.nike.com/t/air-force-1-07-mens-shoe-JkTGzADv/315122-111">
                     <button type="submit" class="btn btn-primary">Order</button>
                 </form>
+            <div class = "container text-center">
+            <div class="coll-lg-4">
+                <h3>How to use website</h3>
+                <i class = "fa fa heart"></i>
+                <p>
+                    Before running Puppeteer you must have a nike account already set up with all of your billing information saved.
+                    You should enter your nike email and password exactly as you have it on the official nike website. Please enter your
+                    security code as that is required everytime you checkout. Add your shoe size in the demonstrated format above and copy
+                    and the paste the nike url of the shoe you would like to purchase.
+                    
+                </p>
+            </div>
+
+
+            </div>
             </div>
             <div class="col-lg-2"></div>
         </div>
@@ -78,107 +94,38 @@
             const userPassInput = $("#userPassInput");
             const cvUserInpput = $("#cvUserInpput");
             const sizeUserInput = $("#sizeUserInput");
+            const urlUserInput = $("#urlUserInput");
             const message = $("#message");
             message.hide();
 
-            const displayMessage = (flag,msg)=>{
-                // successful
-                if(flag){
-                    message.removeClass('alert-danger');
-                    message.addClass('alert-success');
-                    message.html(msg);
-                    message.show();
-                }
-                else{
-                    message.removeClass('alert-success');
-                    message.addClass('alert-danger');
-                    message.html(msg);
-                    message.show();
-                }
-            }
+            // const displayMessage = (flag,msg)=>{
+            //     // successful
+            //     if(flag){
+            //         message.removeClass('alert-danger');
+            //         message.addClass('alert-success');
+            //         message.html(msg);
+            //         message.show();
+            //     }
+            //     else{
+            //         message.removeClass('alert-success');
+            //         message.addClass('alert-danger');
+            //         message.html(msg);
+            //         message.show();
+            //     }
+            // }
  
-            const getUser = ()=>{
-                fetch('/getUser',{method : "get"}).then((response)=>{
-                    return response.json();
-                }).then((data)=>{
-                    console.log(data);
-                    displayUser(data);
-                });
-            }
+            // const getUser = ()=>{
+            //     fetch('/getUser',{method : "get"}).then((response)=>{
+            //         return response.json();
+            //     }).then((data)=>{
+            //         console.log(data);
+            //         displayUser(data);
+            //     });
+            // }
 
-           // getUser();
+       
 
-            const resetUserInput = ()=>{
-                userUserInput.val('');
-            }
-
-            const editUser = (user,userID,editID)=>{
-                let editBtn = $(`#${editID}`);
-                editBtn.click(()=>{
-                    fetch(`/${user._id}`,{
-                        method : "put",
-                        headers : {
-                            "Content-Type" : "application/json; charset=utf-8" 
-                        },
-                        body : JSON.stringify({user : userUserInput.val()})
-                    }).then((response)=>{
-                        return response.json();
-                    }).then((data)=>{
-                        if(data.ok == 1){
-                            let userIndex = $(`#${userID}`);
-                            userIndex.html(data.value.user);
-                            resetUserInput();
-                        }
-                    });
-                });
-            }
-
-            const deleteUser = (user,listItemID,deleteID)=>{
-                let deleteBtn = $(`#${deleteID}`);
-                deleteBtn.click(()=>{
-                    fetch(`/${user._id}`,{
-                        method: "delete"
-                    }).then((response)=>{
-                        return response.json();
-                    }).then((data)=>{
-                        if(data.ok == 1){
-                            $(`#${listItemID}`).remove();
-                        }
-                    });
-                });
-            }
-
-
-            const buildIDS = (user)=>{
-                return {
-                    editID : "edit_" + user._id,
-                    deleteID : "delete_" + user._id,
-                    listItemID : "listItem_" + user._id,
-                    userID : "user_" + user._id
-                }
-            }
-
-            const buildTemplate = (user,ids)=>{
-                return `<li class="list-group-item" id="${ids.listItemID}">
-                            <div class="row">
-                                <div class="col-md-4" id="${ids.userID}">${user.user}</div>
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4 text-right">
-                                    <button type="button" class="btn btn-secondary" id="${ids.editID}">Edit</button>
-                                    <button type="button" class="btn btn-danger" id="${ids.deleteID}">Delete</button>
-                                </div>
-                            </div>
-                       </li>`;
-            }
-
-            const displayUser = (data)=>{
-                data.forEach((user)=>{
-                    let ids = buildIDS(user);
-                    display.append(buildTemplate(user,ids));
-                    editUser(user,ids.userID,ids.editID);
-                    deleteUser(user,ids.listItemID,ids.deleteID);
-                });
-            }
+           
 
             form.submit((e)=>{
                 e.preventDefault();
@@ -189,6 +136,7 @@
                         password : userPassInput.val(),
                         cv : cvUserInpput.val(),
                         size : sizeUserInput.val(),
+                        url : urlUserInput.val()
                     }),
                     headers : {
                         "Content-Type" : "application/json; charset=utf-8"
@@ -196,21 +144,9 @@
                 }).then((response)=>{
                     return response.json();
                 }).then((data)=>{
-                    // if(!data.error){
-                    //     if(data.result.ok == 1 && data.result.n == 1){
-                    //         let ids = buildIDS(data.document);
-                    //         display.append(buildTemplate(data.document,ids));
-                    //         editUser(data.document,ids.userID,ids.editID);
-                    //         deleteUser(data.document,ids.listItemID,ids.deleteID);
-                    //         displayMessage(true,data.msg);
-                    //     }
-                    // }
-                    // else
-                    //     displayMessage(false,data.error.message);
+                    
 
-                    // resetUserInput();
-
-                    alert('user Input', data);
+                    alert('user input', data);
                     
                 });
             });

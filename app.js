@@ -83,16 +83,16 @@ app.post('/', async (req, res) => {
 
 
 
-db.connect((err) => {
-    if (err) {
-        console.log('unable to connect to database');
-        process.exit(1);
-    }
-    else {
-        app.listen(3000, () => {
-            console.log('connected to db, app listening on port 3000')
-        });
+// db.connect((err) => {
+//     if (err) {
+//         console.log('unable to connect to database');
+//         process.exit(1);
+//     }
+//     else {
+//         app.listen(3000, () => {
+//             console.log('connected to db, app listening on port 3000')
+//         });
 
-    }
-}
-)
+//     }
+// })
+

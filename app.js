@@ -4,6 +4,7 @@ const app = express();
 app.use(bodyParser.json());
 const path = require('path');
 const mainScrapper  = require('./lib/nike-scrapper.js');
+var port_number = server.listen(process.env.PORT || 3000);
 
 
 app.get('/', (req, res) => {
@@ -22,9 +23,8 @@ app.post('/', async (req, res) => {
 
 
 });
-app.listen(3000, () => {
-            console.log('connected to website, app listening on port 3000')
-        });
+app.listen(port_number);
+
 
 
 

@@ -142,11 +142,13 @@
                         "Content-Type" : "application/json; charset=utf-8"
                     }
                 }).then((response)=>{
+                    
                     return response.json();
+                    
                 }).then((data)=>{
                     
 
-                    alert('user input', data);
+                    //alert('user input', data);
                     
                 });
             });

@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require("body-parser");
-const app = express();
+const bodyParser = require("body-parser"); //parsers data sent
+const app = express(); //backend framework
 app.use(bodyParser.json());
 const path = require('path');
 const mainScrapper = require('./lib/new-scrapper.js');
